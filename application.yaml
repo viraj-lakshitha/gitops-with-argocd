@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/viraj-lakshitha/tryout-argocd-manifest'
+    repoURL: 'https://github.com/viraj-lakshitha/gitops-with-argocd'
     targetRevision: HEAD
     path: dev
   destination:
