@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitops-with-argocd
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/viraj-lakshitha/tryout-argocd-manifest'
+    targetRevision: HEAD
+    path: dev
+  destination:
+    # argo-cd running inside the cluster
+    # if you have multiple clusters, then you may need to add the external address
+    server: https://kubernetes.default.svc
+    namespace: development
+  
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+    automated:
+      selfHeal: true # This will give priority to the changes in repo, instead of change made manually
+      prune: true
+
+      # By default argo-cd will poll the repository and check if there any change or not in every 3 minutes
+      # If there any changes in repo, then argo-cd will apply changes on relevant app/svc in relevant namespace
+      # Also, without waiting/polling, you can configure webhook to apply changes right after update the repository
